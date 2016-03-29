@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Todo App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://fb.me/react-0.14.7.min.js"></script>
+    <script src="https://fb.me/react-dom-0.14.7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const Todo = (props) => {
+        var styles = {
+          textDecoration: props.completed ? 'line-through' : 'none'
+        };
+        return (
+          <span style={styles} onClick={() => props.onClick()}>{props.name}</span>
+        );
+      };
+
+      const TodoList = (props) => {
+        return (
+          <ul>
+            {
+              props.todos.map((todo) => {
+                return (
+                  <li key={todo.id}>
+                    <Todo
+                      name={todo.name}
+                      completed={todo.completed}
+                      onClick={() => props.onTodoClick(todo)}
+                    />
+                  </li>
+                );
+              })
+            }
+          </ul>
+        );
+      };
+
+      const AddTodo = React.createClass({
+        handleSubmit(e) {
+          e.preventDefault();
+          const input = this.refs.input;
+          this.props.onSubmit(input.value);
+          input.value = '';
+        },
+
+        render() {
+          return (
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label>Add Todo: </label>
+                <input type="text" className="form-control" ref="input" />
+              </div>
+              <button type="submit" className="btn btn-default">Submit</button>
+            </form>
+          );
+        }
+      });
+
+      const App = React.createClass({
+
+        getInitialState() {
+          return { todos: [], autoId: 1 };
+        },
+
+        createTodo(name) {
+          this.setState({
+            autoId: this.state.autoId + 1,
+            todos: [
+              ...this.state.todos,
+              {
+                id: this.state.autoId,
+                name,
+                completed: false
+              }
+            ]
+          });
+        },
+
+        toggleTodo(todo) {
+          const id = todo.id;
+          this.setState({
+            todos: this.state.todos.map((todo) => {
+              if (todo.id === id) {
+                todo.completed = !todo.completed;
+              }
+              return todo;
+            })
+          });
+        },
+
+        render() {
+          return (
+            <div>
+              <AddTodo onSubmit={this.createTodo} />
+              <TodoList
+                todos={this.state.todos}
+                onTodoClick={this.toggleTodo}
+              />
+            </div>
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>
