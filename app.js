@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 import path from 'path';
 import config from 'config';
@@ -18,4 +18,4 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
-export defualt app;
+export default app;
