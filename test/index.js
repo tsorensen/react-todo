@@ -1,3 +1,5 @@
+//just for experimenting with testing the API
+
 'use strict'
 
 import supertest from 'supertest-as-promised';
