@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use('/api', api);
 app.use(express.static(PUBLIC_DIR));
 
+//error handling. Prevents large stack traces in console
 app.use((err, req, res, next) => {
   res.status(500).json({
     error: err.message
