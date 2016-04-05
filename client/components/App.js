@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AddTodo from './AddTodo';
-import TodoList from './TodoList';
+import TodoList from '../containers/FilteredTodoList';
 
 class App extends Component {
 
@@ -38,13 +38,11 @@ class App extends Component {
   }
 
   render() {
+    console.log('rendering App');
     return (
       <div>
         <AddTodo onSubmit={this.createTodo} />
-        <TodoList
-          todos={this.state.todos}
-          onTodoClick={this.toggleTodo}
-        />
+        <FilteredTodoList />
       </div>
     );
   }
