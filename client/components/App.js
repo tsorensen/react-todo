@@ -1,52 +1,22 @@
-import React, { Component } from 'react';
-import AddTodo from './AddTodo';
-import TodoList from '../containers/FilteredTodoList';
+'use strict'
 
-class App extends Component {
+import React from 'react'
+import AddTodoContainer from '../containers/AddTodoContainer'
+import FilteredTodoList from '../containers/FilteredTodoList'
+import Filters from './Filters'
 
-  constructor(props) {
-    super(props);
-    this.state = { todos: [], autoId: 1 };
-    this.createTodo = this.createTodo.bind(this);
-    this.toggleTodo = this.toggleTodo.bind(this);
-  }
-
-  createTodo(name) {
-    this.setState({
-      autoId: this.state.autoId + 1,
-      todos: [
-        ...this.state.todos,
-        {
-          id: this.state.autoId,
-          name,
-          completed: false
-        }
-      ]
-    });
-  }
-
-  toggleTodo(todo) {
-    const id = todo.id
-    this.setState({
-      todos: this.state.todos.map((todo) => {
-        if (todo.id === id) {
-          todo.completed = !todo.completed;
-        }
-        return todo;
-      })
-    });
-  }
+class App extends React.Component {
 
   render() {
-    console.log('rendering App');
     return (
       <div>
-        <AddTodo onSubmit={this.createTodo} />
+        <AddTodoContainer />
+        <Filters />
         <FilteredTodoList />
       </div>
-    );
+    )
   }
 
 }
 
-export default App;
+export default App
