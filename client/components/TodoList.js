@@ -1,24 +1,35 @@
-import React from 'react';
-import Todo from './Todo'; // Import our Todo component that we just wrote.
+'use strict'
 
-const TodoList = (props) => {
-  return (
-    <ul>
-      {
-        props.todos.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <Todo
-                name={todo.name}
-                completed={todo.completed}
-                onClick={() => props.onTodoClick(todo)}
-              />
-            </li>
-          );
-        })
-      }
-    </ul>
-  );
-};
+import React from 'react'
+import Todo from './Todo'
 
-export default TodoList;
+class TodoList extends React.Component {
+
+  componentWillMount() {
+    this.props.init()
+  }
+
+  render() {
+    return (
+      <ul>
+        {
+          this.props.todos.map((todo) => {
+            return (
+              <li key={todo.id}>
+                <Todo
+                  name={todo.name}
+                  completed={todo.completed}
+                  onClick={() => this.props.onTodoClick(todo)}
+                  onDeleteClick={() => this.props.onTodoDeleteClick(todo)}
+                />
+              </li>
+            )
+          })
+        }
+      </ul>
+    )
+  }
+
+}
+
+export default TodoList
