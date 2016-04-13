@@ -1,20 +1,19 @@
 'use strict'
 
-import { conect } from 'react-redux';
-import AddTodo from '../components/AddTodo';
-import { createTodo } from '../actions';
+import { connect } from 'react-redux'
+import AddTodo from '../components/AddTodo'
+import { createTodo } from '../actions'
 
-const mapStateToProps = null;
+const mapStateToProps = null
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onSubmit(name) {
-      dispatch(createTodo(name));
-    }
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(value) {
+    if (!value) return
+    dispatch(createTodo(value))
+  }
+})
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(AddTodo);
+  mapDispatchToProps
+)(AddTodo)
