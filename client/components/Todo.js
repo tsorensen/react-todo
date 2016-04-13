@@ -1,15 +1,18 @@
-import React from 'react';
-// Even though we don't use React directly, the process to convert JSX into
-// `React.createElement()` calls needs `React` available
+import React from 'react'
 
 const Todo = (props) => {
   var styles = {
     textDecoration: props.completed ? 'line-through' : 'none',
     cursor: 'pointer'
-  };
+  }
+  
   return (
-    <span style={styles} onClick={() => props.onClick()}>{props.name}</span>
-  );
-};
+    <div>
+      <span style={styles} onClick={props.onClick}>{props.name}</span>
+      &nbsp;
+      <button onClick={props.onDeleteClick}>X</button>
+    </div>
+  )
+}
 
-export default Todo;
+export default Todo
