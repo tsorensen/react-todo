@@ -10,7 +10,8 @@
     "devwatch": "nodemon --exec babel-node -- app",
     "test": "mocha",
     "build": "webpack",
-    "build-watch": "webpack-dev-server --inline --content-base public/"
+    "build-watch": "webpack-dev-server --inline --content-base public/",
+    "all": "npm run watch & npm run build-watch"
   },
   "author": "",
   "license": "ISC",
