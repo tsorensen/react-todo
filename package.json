@@ -5,13 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node init",
-    "watch": "nodemon init",
-    "dev": "babel-node app",
-    "devwatch": "nodemon --exec babel-node -- app",
-    "test": "mocha",
-    "build": "webpack",
+    "startdev": "babel-node app",
+    "watch": "nodemon --exec babel-node -- app",
     "build-watch": "webpack-dev-server --inline --content-base public/",
-    "all": "npm run watch & npm run build-watch"
+    "all": "npm run watch & npm run build-watch",
+    "build": "webpack",
+    "test": "NODE_ENV=test mocha"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +23,7 @@
     "body-parser": "^1.15.0",
     "config": "^1.19.0",
     "express": "^4.13.4",
+    "mongoose": "^4.4.12",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
     "redux-thunk": "^2.0.1"
