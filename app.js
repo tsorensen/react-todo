@@ -4,7 +4,10 @@ import path from 'path';
 import config from 'config';
 import express from 'express';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import api from './routes';
+
+mongoose.connect(config.get('mongoUrl'));
 
 const app = express();
 const PORT = config.port;
