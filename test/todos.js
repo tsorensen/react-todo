@@ -1,25 +1,18 @@
 'use strict'
 
-import Promise from 'bluebird'
-import chai from 'chai'
-import supertest from 'supertest-as-promised'
-import Todo from '../lib/todos'
-import app from '../app'
+import chai from 'chai';
+import supertest from 'supertest-as-promised';
+import Todo from '../models/todo';
+import app from '../app';
 
-Promise.promisifyAll(Todo)
-
-const request = supertest(app)
-const expect = chai.expect
+const request = supertest(app);
+const expect = chai.expect;
 
 describe('todos', () => {
 
   beforeEach(() => {
-    return Todo
-      .findAsync()
-      .then((todos) => {
-        return Promise.all(todos.map((todo) => Todo.deleteAsync(todo.id)))
-      })
-  })
+    return Todo.remove();
+  });
 
   it('gets empty array with no todos', () => {
     return request.get('/api/todos')
@@ -27,23 +20,22 @@ describe('todos', () => {
   });
 
   it('gets a list of todos with a few todos', () => {
-    const names = [ 'foo', 'bar', 'hello' ];
     return Promise
-      .all(names.map((name) => Todo.createAsync({ name })))
-      .then(() => {
-        return request.get('/api/todos').expect(200);
-      })
-      .then((res) => {
-        const todos = res.body;
+      .all([
+        Todo.create({ name: 'foo' }),
+        Todo.create({ name: 'bar' }),
+        Todo.create({ name: 'hello' })
+      ])
+      .then((todos) => {
         expect(todos).to.have.length(3);
-        todos.forEach((todo) => {
-          expect(todo).to.have.property('name');
-          expect(todo).to.have.property('id');
-          expect(todo).to.have.property('completed');
+        return request.get('/api/todos')
+          .expect(200);
+      })
+      .then((response) => {
+        expect(response.body).to.have.length(3);
+        response.body.forEach((todo) => {
+          expect(todo).to.have.keys('name', 'completed', 'id', 'updatedAt', 'createdAt');
         });
-        expect(todos[0]).to.have.property('name', 'foo');
-        expect(todos[1]).to.have.property('name', 'bar');
-        expect(todos[2]).to.have.property('name', 'hello');
       });
   });
 
@@ -56,7 +48,7 @@ describe('todos', () => {
         expect(todo).to.have.property('name', 'foo');
         expect(todo).to.have.property('completed', true);
         expect(todo).to.have.property('id');
-        return Todo.findOneAsync(todo.id);
+        return Todo.findOne({ _id: todo.id }).exec();
       })
       .then((todo) => {
         expect(todo).to.have.property('name', 'foo');
@@ -76,7 +68,7 @@ describe('todos', () => {
 
   it('updates a todo', () => {
     let id;
-    return Todo.createAsync({ name: 'foo' })
+    return Todo.create({ name: 'foo' })
       .then((todo) => {
         id = todo.id;
         expect(todo.name).to.be.equal('foo');
@@ -85,7 +77,7 @@ describe('todos', () => {
           .expect(200);
       })
       .then(() => {
-        return Todo.findOneAsync(id);
+        return Todo.findOne({ _id: id }).exec();
       })
       .then((todo) => {
         expect(todo.name).to.be.equal('bar');
@@ -94,14 +86,14 @@ describe('todos', () => {
 
   it('deletes a todo', () => {
     let id;
-    return Todo.createAsync({ name: 'bar' })
+    return Todo.create({ name: 'bar' })
       .then((todo) => {
         id = todo.id;
         return request.delete(`/api/todos/${todo.id}`)
           .expect(204);
       })
       .then((todo) => {
-        return Todo.findOneAsync(id)
+        return Todo.findOne({ _id: id }).exec()
           .catch((err) => {
             expect(err).to.match(/not found/);
           });
