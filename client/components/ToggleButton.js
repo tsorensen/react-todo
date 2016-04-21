@@ -1,21 +1,23 @@
 'use strict'
 
-import React from 'react'
+import React from 'react';
+import styles from './ToggleButton.css';
 
 class ToggleButton extends React.Component {
 
   render() {
-    let { label, onClick, active, styles } = this.props
+    let { label, onClick, active } = this.props;
 
-    styles = Object.assign({
-      backgroundColor: active ? 'white' : 'gray'
-    }, styles)
+    const classes = [ styles.toggle ];
+    if (active) {
+      classes.push(styles.active);
+    }
 
     return (
-      <button style={styles} onClick={onClick}>{label}</button>
-    )
+      <button className={classes.join(' ')} onClick={onClick}>{label}</button>
+    );
   }
 
 }
 
-export default ToggleButton
+export default ToggleButton;
