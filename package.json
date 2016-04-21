@@ -9,7 +9,7 @@
     "watch": "nodemon --exec babel-node -- app",
     "build-watch": "webpack-dev-server --inline --content-base public/",
     "all": "npm run watch & npm run build-watch",
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack",
     "test": "NODE_ENV=test mocha"
   },
   "author": "",
@@ -34,12 +34,14 @@
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.7.2",
     "chai": "^3.5.0",
+    "envify": "^3.4.0",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "supertest": "^1.2.0",
     "supertest-as-promised": "^3.0.0",
+    "transform-loader": "^0.2.3",
     "webpack-dev-server": "^1.14.1"
   }
 }
