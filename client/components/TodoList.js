@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import React from 'react';
 import Todo from './Todo';
@@ -32,9 +32,9 @@ class TodoList extends React.Component {
           })
         }
       </ul>
-    )
+    );
   }
 
 }
 
-export default TodoList
+export default TodoList;
